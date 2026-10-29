@@ -1,166 +1,55 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { projects } from "@/lib/projects";
-import { ArrowLeft, ExternalLink, Github, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ExternalLink } from "lucide-react";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function CaseStudy({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const project = projects.find((p) => p.slug === slug);
-  if (!project) return { title: "Project not found" };
-  return {
-    title: `${project.title} | Joshua Mwalukimba`,
-    description: project.shortDesc,
-  };
-}
-
-export default async function ProjectCaseStudy({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
-  const { slug } = await params;
-  const project = projects.find((p) => p.slug === slug);
-  if (!project) notFound();
+  const p = projects.find((x) => x.slug === slug);
+  if (!p) notFound();
 
   return (
-    <article className="section">
-      <div className="mx-auto max-w-4xl px-5 md:px-8">
-        <Link
-          href="/projects"
-          className="mb-8 inline-flex items-center gap-1.5 text-[13.5px] text-[#A8B6CE] hover:text-white transition"
-        >
-          <ArrowLeft size={14} />
-          All projects
-        </Link>
-
-        <div className="mb-10">
-          <div className="mb-3 flex flex-wrap items-center gap-3">
-            <span className="rounded-full bg-[#168BFA]/15 px-3 py-1 text-[12px] font-medium text-[#52B8FF]">
-              {project.category}
-            </span>
-            <span className="rounded-full bg-white/5 px-3 py-1 text-[12px] text-[#A8B6CE]">
-              {project.status}
-            </span>
+    <article className="section" style={{ paddingTop: "calc(var(--nav-h) + 48px)" }}>
+      <div className="container" style={{ maxWidth: 720 }}>
+        <Link href="/projects" className="cs-back"><ArrowLeft size={14} /> All projects</Link>
+        <div className="cs-header">
+          <div className="cs-badges">
+            <span className="badge">{p.category}</span>
+            <span className="badge badge-muted">{p.status}</span>
           </div>
-          <h1 className="mb-4 text-3xl font-semibold tracking-tight text-white md:text-4xl">
-            {project.title}
-          </h1>
-          <p className="max-w-2xl text-[16px] leading-relaxed text-[#A8B6CE]">
-            {project.shortDesc}
-          </p>
+          <h1 className="section-title" style={{ fontSize: "clamp(1.75rem, 4vw, 2.25rem)" }}>{p.title}</h1>
+          <p className="section-desc">{p.shortDesc}</p>
         </div>
-
-        <div className="glass mb-12 aspect-[16/9] overflow-hidden rounded-2xl bg-[#101C30]">
-          <div className="flex h-full items-center justify-center text-[14px] text-[#A8B6CE]">
-            {project.title} — main screenshot
+        <div className="cs-cover">{p.title} — screenshot</div>
+        {p.liveUrl && p.liveUrl !== "#" && (
+          <div style={{ marginBottom: 40 }}>
+            <a href={p.liveUrl} target="_blank" rel="noreferrer" className="btn btn-primary">
+              Live Demo <ExternalLink size={14} />
+            </a>
           </div>
+        )}
+        {p.problem && <div className="cs-section"><h2>The Problem</h2><p>{p.problem}</p></div>}
+        {p.solution && <div className="cs-section"><h2>The Solution</h2><p>{p.solution}</p></div>}
+        {p.role && <div className="cs-section"><h2>My Role</h2><p>{p.role}</p></div>}
+        {p.features && (
+          <div className="cs-section">
+            <h2>Key Features</h2>
+            <ul className="cs-features">{p.features.map((f) => <li key={f}>{f}</li>)}</ul>
+          </div>
+        )}
+        <div className="cs-section">
+          <h2>Tech Stack</h2>
+          <div className="project-tags">{p.techStack.map((t) => <span key={t} className="tag">{t}</span>)}</div>
         </div>
-
-        <div className="mb-12 flex flex-wrap gap-3">
-          {project.liveUrl && project.liveUrl !== "#" && (
-            <a
-              href={project.liveUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[13.5px]"
-            >
-              Live Demo
-              <ExternalLink size={14} />
-            </a>
-          )}
-          {project.githubUrl && project.githubUrl !== "#" && (
-            <a
-              href={project.githubUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[13.5px]"
-            >
-              <Github size={14} />
-              Source Code
-            </a>
-          )}
-        </div>
-
-        <div className="space-y-10">
-          {project.problem && (
-            <section>
-              <h2 className="mb-3 text-lg font-medium text-white">The Problem</h2>
-              <p className="text-[15px] leading-relaxed text-[#A8B6CE]">{project.problem}</p>
-            </section>
-          )}
-
-          {project.solution && (
-            <section>
-              <h2 className="mb-3 text-lg font-medium text-white">The Solution</h2>
-              <p className="text-[15px] leading-relaxed text-[#A8B6CE]">{project.solution}</p>
-            </section>
-          )}
-
-          {project.role && (
-            <section>
-              <h2 className="mb-3 text-lg font-medium text-white">My Role</h2>
-              <p className="text-[15px] leading-relaxed text-[#A8B6CE]">{project.role}</p>
-            </section>
-          )}
-
-          {project.features && project.features.length > 0 && (
-            <section>
-              <h2 className="mb-4 text-lg font-medium text-white">Key Features</h2>
-              <ul className="grid gap-2 sm:grid-cols-2">
-                {project.features.map((f) => (
-                  <li key={f} className="flex items-start gap-2 text-[14.5px] text-[#A8B6CE]">
-                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-[#52B8FF]" />
-                    {f}
-                  </li>
-                ))}
-              </ul>
-            </section>
-          )}
-
-          <section>
-            <h2 className="mb-4 text-lg font-medium text-white">Tech Stack</h2>
-            <div className="flex flex-wrap gap-2">
-              {project.techStack.map((tech) => (
-                <span
-                  key={tech}
-                  className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-[13px] text-[#A8B6CE]"
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </section>
-
-          {project.results && (
-            <section>
-              <h2 className="mb-3 text-lg font-medium text-white">Results & Status</h2>
-              <p className="text-[15px] leading-relaxed text-[#A8B6CE]">{project.results}</p>
-            </section>
-          )}
-        </div>
-
-        <div className="mt-16 rounded-2xl border border-white/5 bg-[#101C30]/60 p-8 text-center">
-          <h3 className="mb-3 text-xl font-medium text-white">
-            Have a similar project in mind?
-          </h3>
-          <p className="mb-6 text-[14.5px] text-[#A8B6CE]">
-            Let’s discuss how I can help you build it.
-          </p>
-          <Link
-            href="/contact"
-            className="btn-primary inline-flex items-center gap-2 rounded-full px-6 py-3 text-[14px]"
-          >
-            Discuss a Project
-            <ArrowRight size={16} />
-          </Link>
+        {p.results && <div className="cs-section"><h2>Results & Status</h2><p>{p.results}</p></div>}
+        <div className="card" style={{ padding: 32, textAlign: "center", marginTop: 48 }}>
+          <h3 style={{ fontSize: 18, marginBottom: 8 }}>Have a similar project in mind?</h3>
+          <p className="text-muted" style={{ marginBottom: 20, fontSize: 14 }}>Let’s discuss how I can help.</p>
+          <Link href="/contact" className="btn btn-primary">Discuss a Project <ArrowRight size={16} /></Link>
         </div>
       </div>
     </article>

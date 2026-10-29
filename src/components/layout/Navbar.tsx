@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 
-const navLinks = [
+const links = [
   { href: "/", label: "Home" },
   { href: "/services", label: "Services" },
   { href: "/projects", label: "Projects" },
@@ -17,62 +17,40 @@ export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="site-header">
-      <div className="site-header-inner">
-        {/* Logo */}
-        <Link href="/" className="logo">
-          <span className="logo-badge">J</span>
-          <span>
-            Joshua<span className="text-cyan">.</span>
-          </span>
-        </Link>
+    <>
+      <header className="nav">
+        <div className="nav-inner">
+          <Link href="/" className="nav-logo">
+            <span className="nav-logo-mark">J</span>
+            <span>Joshua.</span>
+          </Link>
 
-        {/* Desktop Nav */}
-        <nav className="desktop-nav">
-          {navLinks.map((link) => (
-            <Link key={link.href} href={link.href}>
-              {link.label}
+          <nav className="nav-links">
+            {links.map((l) => (
+              <Link key={l.href} href={l.href}>{l.label}</Link>
+            ))}
+          </nav>
+
+          <div className="nav-cta">
+            <Link href="/contact" className="btn btn-primary" style={{ padding: "10px 20px", fontSize: 13 }}>
+              Discuss a Project
             </Link>
-          ))}
-        </nav>
+          </div>
 
-        {/* Desktop CTA */}
-        <div className="desktop-cta">
-          <Link href="/contact" className="btn-primary" style={{ padding: "8px 20px", fontSize: "13.5px" }}>
-            Discuss a Project
-          </Link>
+          <button className="nav-toggle" onClick={() => setOpen(!open)} aria-label="Menu">
+            {open ? <X size={22} /> : <Menu size={22} />}
+          </button>
         </div>
+      </header>
 
-        {/* Mobile toggle */}
-        <button
-          className="mobile-toggle"
-          onClick={() => setOpen(!open)}
-          aria-label="Toggle menu"
-        >
-          {open ? <X size={22} /> : <Menu size={22} />}
-        </button>
-      </div>
-
-      {/* Mobile menu */}
-      <div className={`mobile-menu ${open ? "open" : ""}`}>
-        {navLinks.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            onClick={() => setOpen(false)}
-          >
-            {link.label}
-          </Link>
+      <div className={`nav-mobile ${open ? "open" : ""}`}>
+        {links.map((l) => (
+          <Link key={l.href} href={l.href} onClick={() => setOpen(false)}>{l.label}</Link>
         ))}
-        <Link
-          href="/contact"
-          onClick={() => setOpen(false)}
-          className="btn-primary"
-          style={{ marginTop: 12, textAlign: "center" }}
-        >
+        <Link href="/contact" className="btn btn-primary" onClick={() => setOpen(false)}>
           Discuss a Project
         </Link>
       </div>
-    </header>
+    </>
   );
 }
