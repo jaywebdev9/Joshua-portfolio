@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { projects } from "@/lib/projects";
-import { ArrowRight } from "lucide-react";
+import { ExternalLink, Github } from "lucide-react";
 
 export default function HomePage() {
   const featured = projects.filter((p) => p.featured);
@@ -10,34 +10,53 @@ export default function HomePage() {
       {/* HERO */}
       <section className="hero">
         <div className="container">
-          <div className="hero-grid">
-            <div>
-              <p className="hero-eyebrow">Software Developer · Tanzania</p>
-              <h1 className="hero-title">
-                I build digital solutions that help businesses <span>work smarter.</span>
-              </h1>
-              <p className="hero-desc">
-                Business websites, management systems and custom software designed around real operational needs.
+          <p className="hero-eyebrow">Hi, my name is</p>
+          <h1 className="hero-name">Joshua Mwalukimba.</h1>
+          <h2 className="hero-tagline">I build digital solutions for businesses.</h2>
+          <p className="hero-desc">
+            I&apos;m a software developer based in Tanzania specializing in
+            building websites and business systems that solve real operational
+            problems — from online presence to inventory and sales management.
+          </p>
+          <Link href="/projects" className="hero-cta">
+            Check out my work
+          </Link>
+        </div>
+      </section>
+
+      {/* ABOUT preview */}
+      <section className="section" id="about">
+        <div className="container">
+          <div className="section-head">
+            <span className="section-num">01.</span>
+            <h2 className="section-title">About Me</h2>
+            <div className="section-line" />
+          </div>
+          <div className="about-grid">
+            <div className="about-text">
+              <p>
+                Hello! I&apos;m Joshua, a developer who enjoys turning business
+                problems into clear digital tools. My focus is on building
+                things that people actually use — websites that attract customers
+                and systems that replace messy spreadsheets.
               </p>
-              <div className="hero-actions">
-                <Link href="/contact" className="btn btn-primary">
-                  Discuss a Project <ArrowRight size={16} />
-                </Link>
-                <Link href="/projects" className="btn btn-outline">
-                  Explore My Work
-                </Link>
-              </div>
-              <div className="hero-meta">
-                <span><span className="dot" /> Available for freelance</span>
-                <span>Based in Tanzania</span>
-                <span>Remote-friendly</span>
-              </div>
+              <p>
+                I care about clean code, clear communication and delivering work
+                that ships. Whether it&apos;s a lodge website, a photography studio
+                site, or a full retail management system, the goal is the same:
+                make the product useful.
+              </p>
+              <p>Here are a few technologies I&apos;ve been working with recently:</p>
+              <ul className="skills-list">
+                {["JavaScript (ES6+)", "TypeScript", "React", "Next.js", "Node.js", "PostgreSQL", "Prisma", "HTML & CSS"].map((s) => (
+                  <li key={s}>{s}</li>
+                ))}
+              </ul>
             </div>
-            <div className="hero-visual">
-              <div className="hero-photo">Your professional photo</div>
-              <div className="hero-badge">
-                <strong>Full-Stack Developer</strong>
-                <span> · Websites & Business Systems</span>
+            <div className="about-photo">
+              <div className="about-photo-border" />
+              <div className="about-photo-frame" style={{ display: "flex", alignItems: "center", justifyContent: "center", color: "var(--text-muted)", fontSize: 13 }}>
+                Your photo
               </div>
             </div>
           </div>
@@ -45,104 +64,58 @@ export default function HomePage() {
       </section>
 
       {/* PROJECTS */}
-      <section className="section" style={{ borderTop: "1px solid var(--border)" }}>
+      <section className="section" id="work">
         <div className="container">
-          <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-end", flexWrap: "wrap", gap: 16, marginBottom: 40 }}>
-            <div>
-              <p className="section-label">Selected Work</p>
-              <h2 className="section-title" style={{ marginBottom: 0 }}>Projects built for real business needs</h2>
-            </div>
-            <Link href="/projects" className="text-accent" style={{ fontSize: 14, display: "inline-flex", alignItems: "center", gap: 6 }}>
-              View all <ArrowRight size={14} />
-            </Link>
+          <div className="section-head">
+            <span className="section-num">02.</span>
+            <h2 className="section-title">Some Things I&apos;ve Built</h2>
+            <div className="section-line" />
           </div>
-          <div className="projects-grid cols-3">
+          <div className="project-list">
             {featured.map((p) => (
-              <Link key={p.id} href={`/projects/${p.slug}`} className="card">
-                <div className="project-img">
-                  {p.title} screenshot
-                  <span className="project-status">{p.status}</span>
-                </div>
-                <div className="project-body">
-                  <p className="project-cat">{p.category}</p>
-                  <h3 className="project-title">{p.title}</h3>
+              <article key={p.id} className="project-card">
+                <div className="project-img">{p.title}</div>
+                <div>
+                  <p className="project-over">{p.category} · {p.status}</p>
+                  <h3 className="project-name">
+                    <Link href={`/projects/${p.slug}`}>{p.title}</Link>
+                  </h3>
                   <p className="project-desc">{p.shortDesc}</p>
-                  <div className="project-tags">
-                    {p.techStack.slice(0, 3).map((t) => (
-                      <span key={t} className="tag">{t}</span>
-                    ))}
+                  <div className="project-tech">
+                    {p.techStack.map((t) => <span key={t}>{t}</span>)}
+                  </div>
+                  <div className="project-links">
+                    <Link href={`/projects/${p.slug}`} aria-label="Case study">
+                      <ExternalLink size={16} />
+                    </Link>
+                    {p.githubUrl && p.githubUrl !== "#" && (
+                      <a href={p.githubUrl} target="_blank" rel="noreferrer" aria-label="GitHub">
+                        <Github size={16} />
+                      </a>
+                    )}
                   </div>
                 </div>
-              </Link>
+              </article>
             ))}
+          </div>
+          <div style={{ textAlign: "center", marginTop: 48 }}>
+            <Link href="/projects" className="btn-outline">View all projects</Link>
           </div>
         </div>
       </section>
 
-      {/* SERVICES */}
-      <section className="section" style={{ borderTop: "1px solid var(--border)", background: "#080D18" }}>
-        <div className="container">
-          <p className="section-label">Services</p>
-          <h2 className="section-title">What I can help you build</h2>
-          <div className="services-grid mt-10">
-            {[
-              { t: "Business Websites", d: "Professional websites that build trust and attract customers — for lodges, studios, agencies and local businesses." },
-              { t: "Business Systems", d: "Inventory, sales, bookings and internal tools that replace notebooks and spreadsheets." },
-              { t: "E-commerce", d: "Online stores with product management, payments and order tracking." },
-              { t: "Custom Software", d: "Tailored solutions when off-the-shelf tools don’t fit your process." },
-              { t: "Website Redesign", d: "Modernize an existing site for better speed, mobile experience and conversion." },
-              { t: "Maintenance", d: "Keep your system secure, updated and running smoothly after launch." },
-            ].map((s) => (
-              <div key={s.t} className="card service-card">
-                <h3>{s.t}</h3>
-                <p>{s.d}</p>
-              </div>
-            ))}
-          </div>
-          <div className="text-center mt-10">
-            <Link href="/services" className="btn btn-outline">View all services</Link>
-          </div>
-        </div>
-      </section>
-
-      {/* PROCESS */}
-      <section className="section" style={{ borderTop: "1px solid var(--border)" }}>
-        <div className="container">
-          <p className="section-label">How I Work</p>
-          <h2 className="section-title">Simple process, clear results</h2>
-          <div className="process-list mt-10">
-            {[
-              { n: "01", t: "Discovery", d: "Understand goals, users and current process." },
-              { n: "02", t: "Planning", d: "Define scope, timeline and deliverables." },
-              { n: "03", t: "Design", d: "Clear structure and user-friendly interfaces." },
-              { n: "04", t: "Development", d: "Clean, maintainable and scalable code." },
-              { n: "05", t: "Testing", d: "Responsive checks, forms and performance." },
-              { n: "06", t: "Launch & Support", d: "Deploy, handover and ongoing support." },
-            ].map((s) => (
-              <div key={s.n} className="process-item">
-                <span className="process-num">{s.n}</span>
-                <div>
-                  <h3>{s.t}</h3>
-                  <p>{s.d}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="section" style={{ borderTop: "1px solid var(--border)" }}>
-        <div className="container text-center" style={{ maxWidth: 560 }}>
-          <h2 className="section-title">Have a business problem software could solve?</h2>
-          <p className="section-desc" style={{ margin: "0 auto 32px" }}>
-            Let’s discuss the right approach — website, management system, or something custom.
-          </p>
-          <div className="flex-center">
-            <Link href="/contact" className="btn btn-primary">Discuss a Project <ArrowRight size={16} /></Link>
-            <a href="https://wa.me/255689995937" target="_blank" rel="noreferrer" className="btn btn-outline">WhatsApp</a>
-          </div>
-        </div>
+      {/* CONTACT */}
+      <section className="contact-section" id="contact">
+        <p className="contact-num">04. What&apos;s Next?</p>
+        <h2 className="contact-title">Get In Touch</h2>
+        <p className="contact-desc">
+          I&apos;m currently open to freelance projects and remote opportunities.
+          Whether you have a question, a project idea, or just want to say hi —
+          I&apos;ll do my best to get back to you.
+        </p>
+        <a href="mailto:joshuamwalukimba2@gmail.com" className="contact-btn">
+          Say Hello
+        </a>
       </section>
     </>
   );
