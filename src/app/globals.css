@@ -370,6 +370,11 @@ ul { list-style: none; }
   display: flex;
   flex-direction: column;
   gap: 24px;
+  padding: 28px;
+  border-radius: 4px;
+  background: transparent;
+  border: 1px solid transparent;
+  transition: background 0.2s, border-color 0.2s;
 }
 
 .project-card {
