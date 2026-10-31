@@ -1,28 +1,15 @@
-# Joshua Mwalukimba — Portfolio v2
+# Joshua Mwalukimba — Portfolio v3
 
-Clean, premium multi-page developer portfolio.
+Human, calm, premium developer portfolio.
+Inspired by Brittany Chiang: breathing room, soft teal accent, text-first design.
 
-**Design:** Deep navy + single cyan accent · Generous spacing · No overlapping nav  
-**Stack:** Next.js 15 · React 19 · TypeScript · Pure CSS (no Tailwind dependency issues)  
-**Pages:** Home, Projects, Case Studies, Services, About, Process, Contact, Resume
+**Stack:** Next.js 15 · React 19 · TypeScript · Pure CSS
 
 ## Run
-
 ```bash
 npm install
 npm run dev
 ```
 
-Open http://localhost:3000
-
-## Deploy (Vercel)
-
-1. Push to GitHub
-2. Import on Vercel
-3. Deploy
-
-## Customize
-
-- Live URLs → `src/lib/projects.ts`
-- Photo → replace hero placeholder
-- Project screenshots → add to `public/images/`
+## Deploy
+Push to GitHub → Vercel

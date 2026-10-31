@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { ArrowRight } from "lucide-react";
 
 export const metadata = { title: "Process | Joshua Mwalukimba" };
 
@@ -7,28 +6,28 @@ export default function ProcessPage() {
   return (
     <section className="section" style={{ paddingTop: "calc(var(--nav-h) + 48px)" }}>
       <div className="container">
-        <p className="section-label">Process</p>
-        <h1 className="section-title">How I work</h1>
-        <p className="section-desc">A clear process designed to reduce uncertainty and deliver results that match your needs.</p>
-        <div className="process-list mt-12">
+        <h1 className="page-title">How I Work</h1>
+        <p className="page-desc" style={{ marginBottom: 40 }}>A simple process from discovery to launch.</p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           {[
-            { n: "01", t: "Discovery", d: "We start by understanding your goals, current process, users and constraints." },
-            { n: "02", t: "Planning", d: "I define scope, milestones, tech stack and acceptance criteria so you know what will be delivered." },
-            { n: "03", t: "Design", d: "Structure, key screens and visual direction focused on clarity and usability." },
-            { n: "04", t: "Development", d: "Clean, maintainable code with regular progress updates — no surprises at the end." },
-            { n: "05", t: "Testing", d: "Responsive checks, forms, edge cases, basic performance and security before launch." },
-            { n: "06", t: "Launch & Support", d: "Deployment, handover, short documentation and agreed support so you can run it confidently." },
-          ].map((s) => (
-            <div key={s.n} className="process-item">
-              <span className="process-num">{s.n}</span>
-              <div><h3>{s.t}</h3><p>{s.d}</p></div>
+            ["01", "Discovery", "Understand goals, users and current process."],
+            ["02", "Planning", "Define scope, timeline and deliverables."],
+            ["03", "Design", "Structure and interfaces focused on clarity."],
+            ["04", "Development", "Clean, maintainable code with regular updates."],
+            ["05", "Testing", "Responsive checks, forms and performance."],
+            ["06", "Launch", "Deploy, handover and ongoing support."],
+          ].map(([n, t, d]) => (
+            <div key={n} style={{ display: "flex", gap: 16, padding: 20, border: "1px solid var(--border)", borderRadius: 4, background: "var(--bg-light)" }}>
+              <span style={{ fontFamily: "var(--mono)", color: "var(--accent)", fontSize: 14 }}>{n}</span>
+              <div>
+                <h3 style={{ color: "var(--text)", fontSize: 16, marginBottom: 4 }}>{t}</h3>
+                <p style={{ fontSize: 14 }}>{d}</p>
+              </div>
             </div>
           ))}
         </div>
-        <div className="card text-center mt-12" style={{ padding: 40 }}>
-          <h3 style={{ fontSize: 18, marginBottom: 8 }}>Ready to start?</h3>
-          <p className="text-muted" style={{ marginBottom: 20, fontSize: 14 }}>Tell me about what you need.</p>
-          <Link href="/contact" className="btn btn-primary">Discuss a Project <ArrowRight size={16} /></Link>
+        <div style={{ marginTop: 40 }}>
+          <Link href="/contact" className="btn-outline">Start a project</Link>
         </div>
       </div>
     </section>
